@@ -1,0 +1,387 @@
+:root[data-theme="light"] {
+  --text: #1a0f18;
+  --background: #f8f2f7;
+  --primary: #a664a0;
+  --secondary: #c9cba4;
+  --secondary-low: #b57db18a;
+  --accent: #b57db1;
+  --toggle-icon: url('assets/images/light_mode.png');
+}
+:root[data-theme="dark"] {
+  --text: #f0e5ee;
+  --background: #0d070c;
+  --primary: #9b5996;
+  --secondary: #595b34;
+  --secondary-low: #b57db18a;
+  --accent: #824a7e;
+  --toggle-icon: url('assets/images/dark_mode.png');
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Silkscreen';
+}
+
+body {
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  background-color: var(--background);
+  cursor: url('assets/images/cursor.png'), auto;
+}
+
+button, a {
+  cursor: url('assets/images/cursor.png'), pointer;
+}
+
+input, textarea {
+  cursor: url('assets/images/cursor.png'), text;
+}
+
+/* main page css styles */
+
+.main-page-outer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+  width: 100vw;
+  height: 100vh;
+}
+
+.main-page-bottom-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+}
+
+/* wrapped title css styles */
+
+.wrapped-title {
+  display: flex;
+  width: fit-content;
+}
+
+.wrapped-title > div {
+  display: flex;
+}
+
+.title-letter {
+  color: var(--text);
+  transition: transform 0.2s ease-in-out;
+  text-shadow: 5px 5px 0 var(--accent);
+}
+
+.title-letter:hover {
+  transform: scale(1.2);
+}
+
+/* button css styles */
+
+.button-outer {
+  display: grid;
+  border: none;
+  background: none;
+  aspect-ratio: 5/2;
+  transition: transform 0.2s ease-in-out;
+}
+
+.button-outer:hover {
+  transform: scale(1.1);
+}
+
+.button-outer > span {
+  grid-row: 1/2;
+  grid-column: 1/2;
+  color: var(--background);
+  z-index: 3;
+  text-align: center;
+  padding-top: 5%;
+}
+
+.button-outer > .button-shape-outer {
+  grid-row: 1/2;
+  grid-column: 1/2;
+}
+
+.button-shape-outer {
+  display: grid;
+  grid-template-columns: 1fr 10fr 1fr;
+  grid-template-rows: 1fr 4fr 1fr;
+}
+
+.button-shape-outer > .button-shape-longer {
+  grid-row: 1/4;
+  grid-column: 2/3;
+  width: 100%;
+  height: 100%;
+}
+
+.button-shape-outer > .button-shape-wider {
+  grid-row: 2/3;
+  grid-column: 1/4;
+  width: 100%;
+  height: 100%;
+}
+
+.button-outer > .button-shape-outer:first-of-type > .button-shape-longer, .button-outer > .button-shape-outer:first-of-type > .button-shape-wider {
+  background-color: var(--accent);
+}
+
+.button-outer > .button-shape-outer:last-of-type > .button-shape-longer, .button-outer > .button-shape-outer:last-of-type > .button-shape-wider {
+  background-color: var(--text);
+}
+
+.button-outer > .button-shape-outer:last-of-type {
+  transform: translate(3px,3px);
+}
+
+.button-outer > .button-shape-outer:first-of-type {
+  z-index: 2;
+}
+
+/* toggle theme button css styling */
+
+.toggle-theme-button {
+  margin: 10px;
+  height: 50px;
+  width: 50px;
+  background-image: var(--toggle-icon);
+  background-repeat: no-repeat;
+  object-fit: cover;
+  background-color: #00000000;
+  border: none;
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.2s ease-in-out;
+}
+
+.toggle-theme-button:hover {
+  transform: scale(1.2);
+}
+
+/* difficulty page css styling */
+
+.difficulty-outer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100vw;
+}
+
+.difficulty-buttons-row {
+  margin-top: 40px;
+  display: flex;
+  gap: 50px;
+}
+
+.difficulty-button-outer {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+  justify-content: center;
+}
+
+.difficulty-button-outer > span {
+  color: var(--text);
+  font-size: 26px;
+  transition: transform 0.2s ease-in-out;
+}
+
+.difficulty-button-outer > span:hover {
+  transform: scale(1.1);
+}
+
+/* game page css styling */
+
+.game-page-outer {
+  width: 100vw;
+  height: 100vh;
+}
+
+/* navbar css styling */
+
+.navbar-outer {
+  background-color: var(--background);
+  display: flex;
+  justify-content: space-between;
+  padding-left: 2%;
+  padding-right: 2%;
+  height: 13vh;
+  border-bottom: 1px solid var(--text);
+  align-items: center;
+}
+
+/* game buttons styling */
+
+.game-buttons-outer {
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+  width: 15vw;
+  height: 87vh;
+  justify-content: center;
+}
+
+/* game area styling */
+
+.game-area-outer {
+  display: grid;
+  margin-left: 5vw;
+  grid-template-columns: 15vw 1fr;
+  gap: 200px;
+  height: 87vh;
+  padding-top: 2%;
+}
+
+/* game board styling */
+
+.board-outer-div {
+  display: grid;
+  grid-template-columns: 100px 1fr;
+  grid-template-rows: 100px 1fr;
+  gap: 10px;
+}
+
+.vertical-clues {
+  grid-row: 1/2;
+  grid-column: 2/3;
+  display: flex;
+  flex-direction: row;
+  gap: 1px;
+  width: 450px;
+}
+
+.horizontal-clues {
+  grid-row: 2/3;
+  grid-column: 1/2;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  height: 450px;
+}
+
+.vertical-clue {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.horizontal-clue {
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.clue-value {
+  font-size: 16px;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--secondary-low);
+}
+
+.vertical-clue.done > .clue-value, .horizontal-clue.done > .clue-value {
+  background-color: var(--secondary);
+}
+
+.horizontal-clue .clue-value {
+  margin-left: 3px;
+  margin-right: 3px;
+}
+
+.vertical-clue .clue-value {
+  margin-top: 3px;
+  margin-bottom: 3px;
+}
+
+.clue-value:hover {
+  border: 1px solid var(--secondary);
+}
+
+.board-grid {
+  grid-row: 2/3;
+  grid-column: 2/3;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  height: 450px;
+  width: 450px;
+}
+
+.grid-row {
+  height: 100%;
+  display: flex;
+  gap: 2px;
+}
+
+.grid-cell {
+  width: 100%;
+  border: 2px solid var(--text);
+}
+
+.grid-cell div {
+  width: 100%;
+  height: 100%;
+}
+
+.grid-cell:hover {
+  border: 2px solid var(--primary);
+  transform: scale(0.95);
+}
+
+.grid-cell.fill {
+  background-color: var(--text);
+}
+
+.grid-cell.crossed > div {
+  background-color: var(--secondary-low);
+}
+
+.grid-cell.win {
+  animation-name: scale;
+  animation-duration: 1000ms;
+  animation-iteration-count: 1;
+  animation-timing-function: ease-in-out;
+}
+
+@keyframes scale {
+  0% {
+    transform: scale(1);
+    border: 2px solid var(--text);
+  }
+  50% {
+    transform: scale(0.8);
+    border: 2px solid var(--accent);
+  }
+  100% {
+    transform: scale(1);
+    border: 2px solid var(--text);
+  }
+}
+
+/* win popup styling */
+
+.win-popup {
+  position: fixed;
+  top: 20vh;
+  right: 50px;
+  border: 5px solid var(--primary);
+  background-color: var(--background);
+  color: var(--text);
+  font-size: 26px;
+  padding: 10px;
+  width: 300px;
+}
