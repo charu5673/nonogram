@@ -3,10 +3,16 @@ from pymongo import MongoClient
 from flask_cors import CORS
 from flask import request
 
-app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": "*"}})
+from dotenv import load_dotenv
+import os
 
-client = MongoClient("mongodb+srv://charumishra5673:charu1234@nonogram.5yxeyxl.mongodb.net/?retryWrites=true&w=majority&appName=Nonogram")
+load_dotenv()
+
+MONGO_URI = os.getenv("MONGODB_URI")
+
+app = Flask(__name__)
+
+client = MongoClient(MONGO_URI)
 db = client["Nonogram"]
 collection = db["Puzzles"]
 
