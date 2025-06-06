@@ -4,7 +4,6 @@ from flask_cors import CORS
 from flask import request
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": "*"}})
 
 client = MongoClient("mongodb+srv://charumishra5673:charu1234@nonogram.5yxeyxl.mongodb.net/?retryWrites=true&w=majority&appName=Nonogram")
 db = client["Nonogram"]
@@ -33,5 +32,3 @@ def get_random_puzzle():
         return jsonify(result[0])
     else:
         return jsonify({"error": "No puzzle found with that difficulty"}), 404
-
-app.run(debug=True)
