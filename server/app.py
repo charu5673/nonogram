@@ -1,5 +1,4 @@
-from flask import Flask, jsonify, make_response
-import certifi
+from flask import Flask, jsonify
 from pymongo import MongoClient
 from flask_cors import CORS
 from flask import request
@@ -35,4 +34,4 @@ def get_random_puzzle():
     else:
         return jsonify({"error": "No puzzle found with that difficulty"}), 404
 
-app.run(debug=True, use_reloader=False)
+app.run(debug=True)

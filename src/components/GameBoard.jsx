@@ -221,9 +221,9 @@ function GridCell({value, position, updateGrid, winState, leftMouseDownFlag, rig
   };
 
   const handleMouseOver = () => {
-    if(leftMouseDownFlag && value != 1) {
+    if(leftMouseDownFlag && value == 0) {
       updateGrid(position,1);
-    } else if(rightMouseDownFlag && value != -1 && value != 1) {
+    } else if(rightMouseDownFlag && value == 0) {
       updateGrid(position,-1);
     } else if(clearLeftFlag && value == 1) {
       updateGrid(position,0);

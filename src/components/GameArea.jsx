@@ -116,7 +116,7 @@ function GameArea({difficulty, leftMouseDownFlag, rightMouseDownFlag, updateLeft
     setWinState('win');
     setTimeout(() => {
       setWinState('none');
-    }, 3000);
+    }, 4000);
   }
 
   return (
