@@ -11,6 +11,7 @@ load_dotenv()
 MONGO_URI = os.getenv("MONGODB_URI")
 
 app = Flask(__name__)
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 client = MongoClient(MONGO_URI)
 db = client["Nonogram"]
