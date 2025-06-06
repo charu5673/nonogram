@@ -39,7 +39,7 @@ function GameArea({difficulty, leftMouseDownFlag, rightMouseDownFlag, updateLeft
       setAnswers(puzzle.grid);
       return;
     }
-    fetch(`https://nonogram-dusq.onrender.com/random_puzzle?difficulty=${difficulty}`)
+    fetch(`${import.meta.env.VITE_API_URL}/random_puzzle?difficulty=${difficulty}`)
     .then(res => res.json())
     .then(data => {
       localStorage.setItem(`${difficulty}puzzle`, JSON.stringify(data));
@@ -54,7 +54,7 @@ function GameArea({difficulty, leftMouseDownFlag, rightMouseDownFlag, updateLeft
   }, [difficulty]);
 
   const newGame = () => {
-    fetch(`https://nonogram-dusq.onrender.com/random_puzzle?difficulty=${difficulty}`)
+    fetch(`${import.meta.env.VITE_API_URL}/random_puzzle?difficulty=${difficulty}`)
     .then(res => res.json())
     .then(data => {
       localStorage.setItem(`${difficulty}puzzle`, JSON.stringify(data));
