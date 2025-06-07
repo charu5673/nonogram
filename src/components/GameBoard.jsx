@@ -13,7 +13,7 @@ import { useEffect, useCallback, useState } from 'react';
 // hooks import
 
 
-function GameBoard({puzzleValue, updateGrid, winState, leftMouseDownFlag, rightMouseDownFlag, updateLeft, updateRight, clearRightFlag, updateClearRight, clearLeftFlag, updateClearLeft}) {
+function GameBoard({puzzleValue, updateGrid, winState, leftMouseDownFlag, rightMouseDownFlag, updateLeft, updateRight, clearRightFlag, updateClearRight, clearLeftFlag, updateClearLeft, handleGameState, gameState}) {
 
   return (
     <Board
@@ -26,15 +26,17 @@ function GameBoard({puzzleValue, updateGrid, winState, leftMouseDownFlag, rightM
       rightMouseDownFlag={rightMouseDownFlag}
       updateLeft={(flag) => updateLeft(flag)}
       updateRight={(flag) => updateRight(flag)}
-        clearLeftFlag={clearLeftFlag}
-        clearRightFlag={clearRightFlag}
-        updateClearLeft={(flag) => {updateClearLeft(flag)}}
-        updateClearRight={(flag) => {updateClearRight(flag)}}
+      clearLeftFlag={clearLeftFlag}
+      clearRightFlag={clearRightFlag}
+      updateClearLeft={(flag) => {updateClearLeft(flag)}}
+      updateClearRight={(flag) => {updateClearRight(flag)}}
+      handleGameState={(flag) => {handleGameState(flag)}}
+      gameState={gameState}
     />
   );
 }
 
-function Board({horizontalClues,verticalClues,values, updateGrid, winState, leftMouseDownFlag, rightMouseDownFlag, updateLeft, updateRight, clearRightFlag, updateClearRight, clearLeftFlag, updateClearLeft}) {
+function Board({horizontalClues,verticalClues,values, updateGrid, winState, leftMouseDownFlag, rightMouseDownFlag, updateLeft, updateRight, clearRightFlag, updateClearRight, clearLeftFlag, updateClearLeft, handleGameState, gameState}) {
   
   let [rowStates, setRowStates] = useState(initClueState(horizontalClues.length));
   let [colStates, setColStates] = useState(initClueState(verticalClues.length));
@@ -61,7 +63,7 @@ function Board({horizontalClues,verticalClues,values, updateGrid, winState, left
         newRowStates[row] = false;
         setRowStates(newRowStates);
       }
-      return;
+      return false;
     }
     for( let i = 0; i < checkArr.length; i++ ) {
       if(clue[i] != checkArr[i]) {
@@ -70,14 +72,16 @@ function Board({horizontalClues,verticalClues,values, updateGrid, winState, left
           newRowStates[row] = false;
           setRowStates(newRowStates);
         }
-        return;
+        return false;
       }
     }
     if(rowStates[row] == false) {
       const newRowStates = [...rowStates];
       newRowStates[row] = true;
       setRowStates(newRowStates);
+      return true;
     }
+    return rowStates[row];
   }, [horizontalClues, values, rowStates]);
 
   const checkColState = useCallback((col) => {
@@ -102,7 +106,7 @@ function Board({horizontalClues,verticalClues,values, updateGrid, winState, left
         newColStates[col] = false;
         setColStates(newColStates);
       }
-      return;
+      return false;
     }
     for( let i = 0; i < checkArr.length; i++ ) {
       if(clue[i] != checkArr[i]) {
@@ -111,22 +115,30 @@ function Board({horizontalClues,verticalClues,values, updateGrid, winState, left
           newColStates[col] = false;
           setColStates(newColStates);
         }
-        return;
+        return false;
       }
     }
     if(colStates[col] == false) {
       const newColStates = [...colStates];
       newColStates[col] = true;
       setColStates(newColStates);
+      return true;
     }
+    return colStates[col];
   }, [verticalClues, values, colStates]);
 
   useEffect(()=>{
+    let gameWonFlag = true;
     for(let i = 0; i<values.length; i++) {
-      checkRowState(i);
-      checkColState(i);
+      let flag = checkRowState(i);
+      if(!flag) gameWonFlag = false;
+      flag = checkColState(i);
+      if(!flag) gameWonFlag = false;
     }
-  },[values, checkColState, checkRowState]);
+    if( gameWonFlag != gameState) {
+      handleGameState(gameWonFlag);
+    }
+  },[values, checkColState, checkRowState, handleGameState, gameState]);
   
   return (
     <div className='board-outer-div'>
@@ -233,9 +245,9 @@ function GridCell({value, position, updateGrid, winState, leftMouseDownFlag, rig
   }
 
   const handleMouseDown = (e) => {
-    if(e.button == 0 && value != 1) {
+    if(e.button == 0 && value == 0) {
       updateLeft(true);
-    } else if(e.button == 2 && value != -1) {
+    } else if(e.button == 2 && value == 0) {
       updateRight(true);
     } else if(e.button == 0 && value == 1) {
       updateClearLeft(true);

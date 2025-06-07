@@ -25,18 +25,17 @@ function GameArea({difficulty, leftMouseDownFlag, rightMouseDownFlag, updateLeft
     verticalClues: initClues(difficulty),
     horizontalClues: initClues(difficulty),
   });
-  let [answers, setAnswers] = useState(initValues[difficulty]);
   let [winState, setWinState] = useState('none');
+  let [gameWonFlag, setGameWonFlag] = useState(false);
 
   useEffect(() => {
     if(localStorage.getItem(`${difficulty}puzzle`)) {
       const puzzle = JSON.parse(localStorage.getItem(`${difficulty}puzzle`));
       setPuzzleValue({
         values: JSON.parse(localStorage.getItem(`${difficulty}values`)),
-        verticalClues: puzzle.colClues,
-        horizontalClues: puzzle.rowClues
+        verticalClues: filterClues(puzzle.colClues),
+        horizontalClues: filterClues(puzzle.rowClues)
       });
-      setAnswers(puzzle.grid);
       return;
     }
     fetch(`${import.meta.env.VITE_API_URL}/random_puzzle?difficulty=${difficulty}`)
@@ -45,10 +44,9 @@ function GameArea({difficulty, leftMouseDownFlag, rightMouseDownFlag, updateLeft
       localStorage.setItem(`${difficulty}puzzle`, JSON.stringify(data));
       setPuzzleValue({
         values: JSON.parse(localStorage.getItem(`${difficulty}values`)),
-        verticalClues: data.colClues,
-        horizontalClues: data.rowClues
+        verticalClues: filterClues(data.colClues),
+        horizontalClues: filterClues(data.rowClues)
       });
-      setAnswers(data.grid);
     })
     .catch(err => console.error(err));
   }, [difficulty]);
@@ -60,10 +58,9 @@ function GameArea({difficulty, leftMouseDownFlag, rightMouseDownFlag, updateLeft
       localStorage.setItem(`${difficulty}puzzle`, JSON.stringify(data));
       setPuzzleValue({
         values: initValues(difficulty),
-        verticalClues: data.colClues,
-        horizontalClues: data.rowClues
+        verticalClues: filterClues(data.colClues),
+        horizontalClues: filterClues(data.rowClues)
       });
-      setAnswers(data.grid);
     })
     .catch(err => console.error(err));
   }
@@ -94,29 +91,23 @@ function GameArea({difficulty, leftMouseDownFlag, rightMouseDownFlag, updateLeft
     }));
   }
 
+  const handleGameState = (flag) => {
+    setGameWonFlag(flag);
+  }
+
   const submit = () => {
     if(winState != 'none') return;
-    for(let i = 0; i < answers.length; i++) {
-      for(let j = 0; j < answers[0].length; j++) {
-        if(answers[i][j] == 1 && puzzleValueState.values[i][j] != 1) {
-          setWinState('lost');
-          setTimeout(() => {
-            setWinState('none');
-          }, 3000);
-          return;
-        } else if(answers[i][j] == 0 && puzzleValueState.values[i][j] == 1) {
-          setWinState('lost');
-          setTimeout(() => {
-            setWinState('none');
-          }, 3000);
-          return;
-        }
-      }
+    if(gameWonFlag) {
+      setWinState('win');
+      setTimeout(() => {
+        setWinState('none');
+      }, 4000);
+    } else {
+      setWinState('lost');
+      setTimeout(() => {
+        setWinState('none');
+      }, 3000);
     }
-    setWinState('win');
-    setTimeout(() => {
-      setWinState('none');
-    }, 4000);
   }
 
   return (
@@ -134,6 +125,8 @@ function GameArea({difficulty, leftMouseDownFlag, rightMouseDownFlag, updateLeft
         clearRightFlag={clearRightFlag}
         updateClearLeft={(flag) => {updateClearLeft(flag)}}
         updateClearRight={(flag) => {updateClearRight(flag)}}
+        handleGameState={(flag) => {handleGameState(flag)}}
+        gameState={gameWonFlag}
       />
       { (winState == 'none') ? null : <WinPopup win={winState} />}
     </div>
@@ -159,6 +152,10 @@ function initClues(difficulty) {
     values.push([]);
   }
   return values;
+}
+
+function filterClues(clues) {
+  return clues.map(row => row.filter(cell => cell !== 0));
 }
 
 export default GameArea;
