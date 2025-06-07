@@ -12,6 +12,7 @@ import { useNavigate } from 'react-router-dom';
 import WrappedTitle from '../components/WrappedTitle.jsx';
 import Button from '../components/Button.jsx';
 import ThemeButton from '../components/ThemeButton.jsx';
+import BackButton from '../components/BackButton.jsx';
 
 
 // hooks import
@@ -23,7 +24,10 @@ function DifficultySelection() {
 
   return (
     <div className="difficulty-outer">
-      <ThemeButton />
+      <div className='difficulty-top-row'>
+        <BackButton size={50} />
+        <ThemeButton />
+      </div>
       <WrappedTitle wrappedFlag={false} fontSize='150px'/>
       <div className='difficulty-buttons-row'>
         <div className='difficulty-button-outer'>
