@@ -50,8 +50,12 @@ function GamePage() {
     setClearRightFlag(flag);
   }
 
+  const handleRightClick = (e) => {
+    e.preventDefault();
+  }
+
   return (
-    <div className='game-page-outer' onMouseUp={handleMouseUp}>
+    <div className='game-page-outer' onMouseUp={handleMouseUp} onContextMenu={handleRightClick}>
       <Navbar />
       <GameArea
         difficulty = {difficulty}

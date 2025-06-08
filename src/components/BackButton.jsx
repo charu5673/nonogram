@@ -14,7 +14,6 @@ import '../index.css'
 
 
 // images import
-import backImage from './assets/images/back.png';
 
 
 function BackButton({size}) {
@@ -25,7 +24,6 @@ function BackButton({size}) {
 
   return (
     <button className='back-button-outer' onClick={handleClick} style={{ height: size + 'px', width: size + 'px' }}>
-      <img src={backImage} />
     </button>
   );
 }

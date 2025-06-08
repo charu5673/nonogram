@@ -1,20 +1,24 @@
 :root[data-theme="light"] {
   --text: #1a0f18;
+  --text-low: #1a0f1848;
   --background: #f8f2f7;
   --primary: #a664a0;
   --secondary: #c9cba4;
   --secondary-low: #b57db18a;
   --accent: #b57db1;
   --toggle-icon: url('assets/images/light_mode.png');
+  --back-icon: url('assets/images/back_light.png');
 }
 :root[data-theme="dark"] {
   --text: #f0e5ee;
+  --text-low: #f0e5ee48;
   --background: #0d070c;
   --primary: #9b5996;
   --secondary: #828720;
   --secondary-low: #974f92;
   --accent: #824a7e;
   --toggle-icon: url('assets/images/dark_mode.png');
+  --back-icon: url('assets/images/back_dark.png');
 }
 
 * {
@@ -22,6 +26,7 @@
   padding: 0;
   box-sizing: border-box;
   font-family: 'Silkscreen';
+  cursor: url('assets/images/cursor.png'), auto;
 }
 
 body {
@@ -29,7 +34,6 @@ body {
   width: 100vw;
   overflow: hidden;
   background-color: var(--background);
-  cursor: url('assets/images/cursor.png'), auto;
 }
 
 button, a {
@@ -177,6 +181,8 @@ input, textarea {
 .difficulty-top-row {
   display: flex;
   gap: 20px;
+  align-items: center;
+  justify-content: center;
 }
 
 .difficulty-buttons-row {
@@ -221,6 +227,11 @@ input, textarea {
   height: 13vh;
   border-bottom: 1px solid var(--text);
   align-items: center;
+  gap: 20px;
+}
+
+.navbar-outer > .back-button-outer {
+  margin-left: auto;
 }
 
 /* game buttons styling */
@@ -295,6 +306,7 @@ input, textarea {
   align-items: center;
   justify-content: center;
   background-color: var(--secondary-low);
+  transition: transform 0.2s ease-in-out;
 }
 
 .vertical-clue.done > .clue-value, .horizontal-clue.done > .clue-value {
@@ -312,7 +324,7 @@ input, textarea {
 }
 
 .clue-value:hover {
-  border: 1px solid var(--secondary);
+  transform: scale(1.7);
 }
 
 .board-grid {
@@ -376,9 +388,9 @@ input, textarea {
   }
 }
 
-/* win popup styling */
+/* popup styling */
 
-.win-popup {
+.popup {
   position: fixed;
   top: 20vh;
   right: 50px;
@@ -397,12 +409,97 @@ input, textarea {
   height: 100vh;
 }
 
+.canvas-grid-area {
+  display: grid;
+  margin-left: 5vw;
+  grid-template-columns: 15vw 1fr;
+  gap: 200px;
+  height: 87vh;
+  padding-top: 2%;
+  align-items: center;
+}
+
+.canvas-grid-area > .board-grid {
+  grid-row: auto;
+}
+
+.canvas-title {
+  font-size: 26px;
+  min-height: 50px;
+  color: var(--text);
+}
+
 
 /* back button styling */
 
-.back-button-outer img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  filter: drop-shadow(5px 5px 0 var(--primary));
+.back-button-outer {
+  border: none;
+  background-color: transparent;
+  background-image: var(--back-icon);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  transition: transform 0.2s ease-in-out;
+  filter: drop-shadow(4px 4px 0 var(--primary));
+}
+
+.back-button-outer:hover {
+  transform: scale(1.2);
+}
+
+/* canvas buttons styling  */
+
+.canvas-buttons-outer {
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+  width: 15vw;
+  height: 87vh;
+  justify-content: center;
+}
+
+/* title dialog styling */
+
+.title-dialog-outer {
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--text-low);
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 30;
+}
+
+.title-dialog {
+  width: 400px;
+  height: 250px;
+  box-shadow: 5px 5px 0 var(--primary);
+  background-color: var(--background);
+  border: 5px solid var(--text);
+  font-size: 26px;
+  padding: 20px;
+  color: var(--text);
+}
+
+.title-dialog > input {
+  color: var(--text);
+  display: block;
+  border: none;
+  background: none;
+  border-bottom: 5px solid var(--text);
+  margin-top: 30px;
+  font-size: 26px;
+  width: 200px;
+}
+
+.title-dialog > input:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.title-dialog > .button-outer {
+  margin-top: 30px;
 }

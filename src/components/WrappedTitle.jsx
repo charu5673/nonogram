@@ -2,6 +2,7 @@
 import '../index.css'
 
 // react functionalities import 
+import { useNavigate } from 'react-router-dom';
 
 
 // pages import
@@ -15,8 +16,14 @@ import '../index.css'
 
 function WrappedTitle({wrappedFlag, fontSize}) {
 
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate('/');
+  }
+
   return (
-    <div className="wrapped-title" style={{ flexDirection: wrappedFlag ? 'column' : 'row' }}>
+    <div className="wrapped-title" style={{ flexDirection: wrappedFlag ? 'column' : 'row' }} onClick={handleClick}>
       <div className="wrapped-title-top-text" style={{fontSize: fontSize}}>
         <span className='title-letter'>N</span>
         <span className='title-letter'>O</span>

@@ -11,7 +11,7 @@ import { useEffect } from 'react';
 // components import
 import GameBoard from './GameBoard';
 import GameButtons from './GameButtons';
-import WinPopup from './WinPopup';
+import Popup from './Popup';
 
 // hooks import
 
@@ -128,7 +128,7 @@ function GameArea({difficulty, leftMouseDownFlag, rightMouseDownFlag, updateLeft
         handleGameState={(flag) => {handleGameState(flag)}}
         gameState={gameWonFlag}
       />
-      { (winState == 'none') ? null : <WinPopup win={winState} />}
+      { (winState == 'none') ? null : <Popup text={(winState == 'win') ? "You have won the game! :D" : "Not quite! Try again :)"} />}
     </div>
   );
 }

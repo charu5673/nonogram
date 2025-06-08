@@ -216,18 +216,14 @@ function Grid({values, updateGrid, winState, leftMouseDownFlag, rightMouseDownFl
 function GridCell({value, position, updateGrid, winState, leftMouseDownFlag, rightMouseDownFlag, updateLeft, updateRight, clearRightFlag, updateClearRight, clearLeftFlag, updateClearLeft, padding}) {
 
   const handleClick = () => {
-    if(value == 1) {
-      updateGrid(position,0);
-    } else {
+    if(value != 1) {
       updateGrid(position,1);
     }
   };
 
   const handleRightClick = (e) => {
     e.preventDefault();
-    if(value == -1) {
-      updateGrid(position,0);
-    } else {
+    if(value != -1 && (value != 1 || !rightMouseDownFlag) && !clearRightFlag) {
       updateGrid(position,-1);
     }
   };

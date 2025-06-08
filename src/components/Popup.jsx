@@ -13,15 +13,13 @@ import '../index.css'
 // hooks import
 
 
-function WinPopup({win}) {
-
-  const text = (win == 'win') ? "You have won the game! :D" : "Not quite! Try again :)";
+function Popup({text}) {
 
   return (
-    <div className='win-popup'>
+    <div className='popup'>
       {text}
     </div>
   );
 }
 
-export default WinPopup;
+export default Popup;

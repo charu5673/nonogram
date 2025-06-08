@@ -8,6 +8,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import MainPage from './pages/MainPage.jsx';
 import DifficultySelection from './pages/DifficultySelection.jsx';
 import GamePage from './pages/GamePage.jsx';
+import Canvas from './pages/Canvas.jsx';
 
 // components import
 
@@ -28,6 +29,7 @@ function App() {
           <Route path="/" element={<MainPage />} />
           <Route path="/difficulty" element={<DifficultySelection />} />
           <Route path="/game/:difficulty" element={<GamePage />} />
+          <Route path="/canvas/:difficulty" element={<Canvas />} />
         </Routes>
       </Router>
     </>
