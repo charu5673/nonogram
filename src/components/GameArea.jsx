@@ -60,7 +60,7 @@ function GameArea({difficulty, leftMouseDownFlag, rightMouseDownFlag, updateLeft
         console.log(err);
       });
     }
-    const getUserPuzzle = () => {
+    const getUserPuzzle = (displayErrorFlag) => {
       if(localStorage.getItem(`${difficulty}user-puzzles`)) {
         const puzzleArr = JSON.parse(localStorage.getItem(`${difficulty}user-puzzles`));
         if(puzzleArr.length > 0) {
@@ -72,11 +72,11 @@ function GameArea({difficulty, leftMouseDownFlag, rightMouseDownFlag, updateLeft
             horizontalClues: filterClues(puzzleArr[index].rowClues)
           });
         } else {
-          noUserPuzzle();
+          if(displayErrorFlag) noUserPuzzle();
           fetchPuzzle();
         }
       } else {
-        noUserPuzzle();
+        if(displayErrorFlag) noUserPuzzle();
         fetchPuzzle();
       }
     }
@@ -84,11 +84,11 @@ function GameArea({difficulty, leftMouseDownFlag, rightMouseDownFlag, updateLeft
     if(settings.includeInBuilt && !settings.includeUser) {
       fetchPuzzle();
     } else if(!settings.includeInBuilt && settings.includeUser) {
-      getUserPuzzle();
+      getUserPuzzle(true);
     } else {
       const userPuzzleFlag = (Math.random() <= 0.5) ? true : false;
       if(userPuzzleFlag) {
-        getUserPuzzle();
+        getUserPuzzle(false);
       } else fetchPuzzle();
     }
   }, [difficulty]);
