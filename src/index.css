@@ -8,7 +8,9 @@
   --accent: #b57db1;
   --toggle-icon: url('assets/images/light_mode.png');
   --back-icon: url('assets/images/back_light.png');
+  --settings-icon: url('./assets/images.settings_light.png');
 }
+
 :root[data-theme="dark"] {
   --text: #f0e5ee;
   --text-low: #f0e5ee48;
@@ -19,6 +21,7 @@
   --accent: #824a7e;
   --toggle-icon: url('assets/images/dark_mode.png');
   --back-icon: url('assets/images/back_dark.png');
+  --settings-icon: url('./assets/images.settings_dark.png');
 }
 
 * {
@@ -447,6 +450,24 @@ input, textarea {
   transform: scale(1.2);
 }
 
+
+/* settings button styling */
+
+.settings-button-outer {
+  border: none;
+  background-color: transparent;
+  background-image: var(--settings-icon);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  transition: transform 0.2s ease-in-out;
+  filter: drop-shadow(4px 4px 0 var(--primary));
+}
+
+.settings-button-outer:hover {
+  transform: scale(1.2);
+}
+
 /* canvas buttons styling  */
 
 .canvas-buttons-outer {
@@ -502,4 +523,11 @@ input, textarea {
 
 .title-dialog > .button-outer {
   margin-top: 30px;
+}
+
+/* canvas list styling */
+
+.canvas-list-outer {
+  width: 100vw;
+  height: 100vh;
 }

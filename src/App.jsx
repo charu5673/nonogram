@@ -9,6 +9,7 @@ import MainPage from './pages/MainPage.jsx';
 import DifficultySelection from './pages/DifficultySelection.jsx';
 import GamePage from './pages/GamePage.jsx';
 import Canvas from './pages/Canvas.jsx';
+import CanvasList from './pages/CanvasList.jsx';
 
 // components import
 
@@ -30,6 +31,7 @@ function App() {
           <Route path="/difficulty" element={<DifficultySelection />} />
           <Route path="/game/:difficulty" element={<GamePage />} />
           <Route path="/canvas/:difficulty" element={<Canvas />} />
+          <Route path="/canvas-list" element={<CanvasList />} />
         </Routes>
       </Router>
     </>
