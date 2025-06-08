@@ -4,6 +4,7 @@ import '../index.css'
 // react functionalities import 
 import { useState } from 'react';
 import { useEffect } from 'react';
+import { useCallback } from 'react';
 
 // pages import
 
@@ -20,13 +21,77 @@ function GameArea({difficulty, leftMouseDownFlag, rightMouseDownFlag, updateLeft
 
   if(!localStorage.getItem(`${difficulty}values`)) localStorage.setItem(`${difficulty}values`,JSON.stringify(initValues(difficulty)));
 
-	let [puzzleValueState, setPuzzleValue] = useState({
+	const [puzzleValueState, setPuzzleValue] = useState({
     values: initValues(difficulty),
     verticalClues: initClues(difficulty),
     horizontalClues: initClues(difficulty),
   });
-  let [winState, setWinState] = useState('none');
-  let [gameWonFlag, setGameWonFlag] = useState(false);
+  const [winState, setWinState] = useState('none');
+  const [gameWonFlag, setGameWonFlag] = useState(false);
+  const [noUserPuzzleFlag, setUserPuzzleFlag] = useState(false);
+  const [fetchErrorFlag, setFetchErrorFlag] = useState(false);
+
+  const getPuzzle = useCallback(() => {
+    const noUserPuzzle = () => {
+      setUserPuzzleFlag(true);
+      setTimeout(() => {
+        setUserPuzzleFlag(false);
+      }, 3000);
+    }
+    const fetchError = () => {
+      setFetchErrorFlag(true);
+      setTimeout(() => {
+        setFetchErrorFlag(false);
+      }, 3000);
+    }
+    const fetchPuzzle = () => {
+      fetch(`${import.meta.env.VITE_API_URL}/random_puzzle?difficulty=${difficulty}`)
+      .then(res => res.json())
+      .then(data => {
+        localStorage.setItem(`${difficulty}puzzle`, JSON.stringify(data));
+        setPuzzleValue({
+          values: JSON.parse(localStorage.getItem(`${difficulty}values`)),
+          verticalClues: filterClues(data.colClues),
+          horizontalClues: filterClues(data.rowClues)
+        });
+      })
+      .catch(err => {
+        fetchError();
+        console.log(err);
+      });
+    }
+    const getUserPuzzle = () => {
+      if(localStorage.getItem(`${difficulty}user-puzzles`)) {
+        const puzzleArr = JSON.parse(localStorage.getItem(`${difficulty}user-puzzles`));
+        if(puzzleArr.length > 0) {
+          const index = parseInt(Math.random() * puzzleArr.length);
+          localStorage.setItem(`${difficulty}puzzle`, JSON.stringify(puzzleArr[index]));
+          setPuzzleValue({
+            values: JSON.parse(localStorage.getItem(`${difficulty}values`)),
+            verticalClues: filterClues(puzzleArr[index].colClues),
+            horizontalClues: filterClues(puzzleArr[index].rowClues)
+          });
+        } else {
+          noUserPuzzle();
+          fetchPuzzle();
+        }
+      } else {
+        noUserPuzzle();
+        fetchPuzzle();
+      }
+    }
+    const settings = JSON.parse(localStorage.getItem('userSettings'));
+    if(settings.includeInBuilt && !settings.includeUser) {
+      fetchPuzzle();
+    } else if(!settings.includeInBuilt && settings.includeUser) {
+      getUserPuzzle();
+    } else {
+      const userPuzzleFlag = (Math.random() <= 0.5) ? true : false;
+      if(userPuzzleFlag) {
+        getUserPuzzle();
+      } else fetchPuzzle();
+    }
+  }, [difficulty]);
 
   useEffect(() => {
     if(localStorage.getItem(`${difficulty}puzzle`)) {
@@ -38,31 +103,13 @@ function GameArea({difficulty, leftMouseDownFlag, rightMouseDownFlag, updateLeft
       });
       return;
     }
-    fetch(`${import.meta.env.VITE_API_URL}/random_puzzle?difficulty=${difficulty}`)
-    .then(res => res.json())
-    .then(data => {
-      localStorage.setItem(`${difficulty}puzzle`, JSON.stringify(data));
-      setPuzzleValue({
-        values: JSON.parse(localStorage.getItem(`${difficulty}values`)),
-        verticalClues: filterClues(data.colClues),
-        horizontalClues: filterClues(data.rowClues)
-      });
-    })
-    .catch(err => console.error(err));
-  }, [difficulty]);
+    localStorage.setItem(`${difficulty}values`, JSON.stringify(initValues(difficulty)));
+    getPuzzle();
+  }, [difficulty, getPuzzle]);
 
   const newGame = () => {
-    fetch(`${import.meta.env.VITE_API_URL}/random_puzzle?difficulty=${difficulty}`)
-    .then(res => res.json())
-    .then(data => {
-      localStorage.setItem(`${difficulty}puzzle`, JSON.stringify(data));
-      setPuzzleValue({
-        values: initValues(difficulty),
-        verticalClues: filterClues(data.colClues),
-        horizontalClues: filterClues(data.rowClues)
-      });
-    })
-    .catch(err => console.error(err));
+    localStorage.setItem(`${difficulty}values`, JSON.stringify(initValues(difficulty)));
+    getPuzzle();
   }
 
   const clearBoard = () => {
@@ -129,6 +176,8 @@ function GameArea({difficulty, leftMouseDownFlag, rightMouseDownFlag, updateLeft
         gameState={gameWonFlag}
       />
       { (winState == 'none') ? null : <Popup text={(winState == 'win') ? "You have won the game! :D" : "Not quite! Try again :)"} />}
+      { (!fetchErrorFlag) ? null : <Popup text={'There was an error while fetching the puzzle!'} />}
+      { (!noUserPuzzleFlag) ? null : <Popup text={'No puzzles created for this difficulty!'} />}
     </div>
   );
 }

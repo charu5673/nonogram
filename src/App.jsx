@@ -23,6 +23,15 @@ function App() {
     localStorage.setItem('theme','light');
   }
 
+  if(!localStorage.getItem('userSettings')) {
+    const userSettings = {
+      includeInBuilt: true,
+      includeUser: false,
+      includeOtherUsers: false,
+    };
+    localStorage.setItem('userSettings',JSON.stringify(userSettings));
+  }
+
   return (
     <>
       <Router>

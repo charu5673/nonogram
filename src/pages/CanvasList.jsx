@@ -18,6 +18,7 @@ function CanvasList() {
   return (
     <div className='canvas-list-outer'>
       <Navbar />
+      UNDER CONSTRUCTION
     </div>
   );
 }

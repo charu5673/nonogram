@@ -15,6 +15,7 @@ import CanvasGrid from '../components/CanvasGrid';
 import Navbar from '../components/Navbar';
 import TitleDialog from '../components/TitleDialog';
 import Popup from '../components/Popup';
+import CanvasDifficultyButtons from '../components/CanvasDifficultyButtons';
 
 // hooks import
 
@@ -63,8 +64,8 @@ function Canvas() {
   }
 
   const submit = () => {
-    if(localStorage.getItem('user-puzzles')) {
-      const storageArr = JSON.parse(localStorage.getItem('user-puzzles'));
+    if(localStorage.getItem(`${difficulty}user-puzzles`)) {
+      const storageArr = JSON.parse(localStorage.getItem(`${difficulty}user-puzzles`));
       for( let i = 0; i < storageArr.length; i++ ) {
         if( storageArr[i].title == title.toLowerCase()) {
           setDuplicateFlag(true);
@@ -118,12 +119,12 @@ function Canvas() {
       difficulty: difficultyVal,
       grid: grid
     };
-    if(!localStorage.getItem('user-puzzles')) {
-      localStorage.setItem('user-puzzles',JSON.stringify([newUserPuzzle]));
+    if(!localStorage.getItem(`${difficulty}user-puzzles`)) {
+      localStorage.setItem(`${difficulty}user-puzzles`,JSON.stringify([newUserPuzzle]));
     } else {
-      const storageArr = JSON.parse(localStorage.getItem('user-puzzles'));
+      const storageArr = JSON.parse(localStorage.getItem(`${difficulty}user-puzzles`));
       storageArr.push(newUserPuzzle);
-      localStorage.setItem('user-puzzles',JSON.stringify(storageArr));
+      localStorage.setItem(`${difficulty}user-puzzles`,JSON.stringify(storageArr));
     }
     setSubmitFlag(true);
     setTimeout(() => {
@@ -163,8 +164,9 @@ function Canvas() {
         updateClearLeft={handleClearLeft}
         title={title}
         />
+        <CanvasDifficultyButtons />
       </div>
-      { (submitFlag) ? <Popup text={"Submitted! Remember that some puzzles may be unsolvable"} /> : null }
+      { (submitFlag) ? <Popup text={"Submitted! Remember that some puzzles may be unsolvable!"} /> : null }
       { (duplicateFlag) ? <Popup text={"Puzzle with this name already exists!"} /> : null }
       { (titleFlag) ? <TitleDialog setTitleFlag={setTitleFlag} updateTitle={updateTitle} titleText={title} /> : null }
     </div>

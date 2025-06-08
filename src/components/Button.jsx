@@ -13,10 +13,10 @@ import '../index.css';
 // hooks import
 
 
-function Button({action, text, height}) {
+function Button({action, text, height, width}) {
 
   return (
-    <button className='button-outer' onClick={() => action()} style={{height: height + "px"}}>
+    <button className='button-outer' onClick={() => action()} style={{height: height + "px", width: (width) ? width + 'px' : 'auto'}}>
       <span style={{fontSize: height / 2 + "px"}}>{text}</span>
       <ButtonShape/>
       <ButtonShape/>

@@ -8,7 +8,7 @@
   --accent: #b57db1;
   --toggle-icon: url('assets/images/light_mode.png');
   --back-icon: url('assets/images/back_light.png');
-  --settings-icon: url('./assets/images.settings_light.png');
+  --settings-icon: url('./assets/images/settings_light.png');
 }
 
 :root[data-theme="dark"] {
@@ -21,7 +21,7 @@
   --accent: #824a7e;
   --toggle-icon: url('assets/images/dark_mode.png');
   --back-icon: url('assets/images/back_dark.png');
-  --settings-icon: url('./assets/images.settings_dark.png');
+  --settings-icon: url('./assets/images/settings_dark.png');
 }
 
 * {
@@ -403,6 +403,7 @@ input, textarea {
   font-size: 26px;
   padding: 10px;
   width: 300px;
+  z-index: 20;
 }
 
 /* canvas page styling */
@@ -415,7 +416,7 @@ input, textarea {
 .canvas-grid-area {
   display: grid;
   margin-left: 5vw;
-  grid-template-columns: 15vw 1fr;
+  grid-template-columns: 15vw 450px 15vw;
   gap: 200px;
   height: 87vh;
   padding-top: 2%;
@@ -430,6 +431,17 @@ input, textarea {
   font-size: 26px;
   min-height: 50px;
   color: var(--text);
+}
+
+/* canvas difficulty buttons styling */
+
+.canvas-difficulty-buttons-outer {
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+  width: 15vw;
+  height: 87vh;
+  justify-content: center;
 }
 
 
@@ -461,7 +473,6 @@ input, textarea {
   background-position: center;
   background-size: contain;
   transition: transform 0.2s ease-in-out;
-  filter: drop-shadow(4px 4px 0 var(--primary));
 }
 
 .settings-button-outer:hover {
@@ -530,4 +541,67 @@ input, textarea {
 .canvas-list-outer {
   width: 100vw;
   height: 100vh;
+}
+
+/* settings dialog styling */
+
+.settings-dialog-outer {
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--text-low);
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 30;
+}
+
+.settings-dialog {
+  width: 400px;
+  height: 300px;
+  box-shadow: 5px 5px 0 var(--primary);
+  background-color: var(--background);
+  border: 5px solid var(--text);
+  font-size: 24px;
+  padding: 20px;
+  color: var(--text);
+}
+
+.settings-dialog-input {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.settings-dialog-input > span {
+  display: block;
+}
+
+.settings-dialog input {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  color: var(--text);
+  border: 2px solid var(--text);
+  background: none;
+  background-color: var(--background);
+  min-width: 30px;
+  min-height: 30px;
+}
+
+.settings-dialog input:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.settings-dialog input:checked {
+  background: none;
+  background-color: var(--primary);
+}
+
+.settings-dialog > .button-outer {
+  margin-top: 30px;
 }
