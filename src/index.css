@@ -9,6 +9,8 @@
   --toggle-icon: url('assets/images/light_mode.png');
   --back-icon: url('assets/images/back_light.png');
   --settings-icon: url('./assets/images/settings_light.png');
+  --delete-icon: url('./assets/images/delete_light.png');
+  --edit-icon: url('./assets/images/edit_light.png');
 }
 
 :root[data-theme="dark"] {
@@ -18,10 +20,12 @@
   --primary: #9b5996;
   --secondary: #828720;
   --secondary-low: #974f92;
-  --accent: #824a7e;
+  --accent: #bd6fb8;
   --toggle-icon: url('assets/images/dark_mode.png');
   --back-icon: url('assets/images/back_dark.png');
   --settings-icon: url('./assets/images/settings_dark.png');
+  --delete-icon: url('./assets/images/delete_dark.png');
+  --edit-icon: url('./assets/images/edit_dark.png');
 }
 
 * {
@@ -541,6 +545,122 @@ input, textarea {
 .canvas-list-outer {
   width: 100vw;
   height: 100vh;
+}
+
+.canvas-list-difficulty-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+  width: 15vw;
+  height: 87vh;
+  justify-content: center;
+}
+
+/* puzzle list styling  */
+
+.canvas-list-puzzles-outer {
+  display: grid;
+  grid-template-columns: 15vw 1fr;
+  margin: 40px;
+  column-gap: 40px;
+}
+
+.puzzle-list-outer {
+  width: 100%;
+  overflow-y: scroll;
+  height: 75vh;
+  border: 5px solid var(--text);
+}
+
+.puzzle-list-outer > span {
+  margin: 40px;
+  font-size: 35px;
+  color: var(--text);
+}
+
+.puzzle-card-outer {
+  background-color: var(--background);
+  border: 3px solid var(--text);
+  box-shadow: 3px 3px 0 var(--accent);
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  height: 25vh;
+  margin: 40px;
+  margin-bottom: 0;
+}
+
+.puzzle-card-left {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: space-between;
+}
+
+.puzzle-card-left-top {
+  display: flex;
+  gap: 10px;
+}
+
+.puzzle-card-left-top h2 {
+  font-size: 44px;
+  font-weight: bold;
+  color: var(--text);
+}
+
+.puzzle-card-edit-button {
+  height: 50px;
+  width: 50px;
+  background-image: var(--edit-icon);
+  background-repeat: no-repeat;
+  object-fit: cover;
+  background-color: #00000000;
+  border: none;
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.2s ease-in-out;
+}
+
+.puzzle-card-edit-button:hover {
+  transform: scale(1.2);
+}
+
+.puzzle-card-delete-button {
+  height: 50px;
+  width: 45px;
+  background-image: var(--delete-icon);
+  background-repeat: no-repeat;
+  object-fit: cover;
+  background-color: #00000000;
+  border: none;
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.2s ease-in-out;
+}
+
+.puzzle-card-delete-button:hover {
+  transform: scale(1.2);
+}
+
+.puzzle-card-right {
+  height: 100%;
+  aspect-ratio: 1/1;
+  width: auto;
+}
+
+.puzzle-grid-outer > .board-grid {
+  height: 100%;
+  aspect-ratio: 1/1;
+  width: 100%;
+}
+
+.puzzle-grid-outer .grid-cell {
+  border: 1px solid var(--text);
+}
+
+.puzzle-grid-outer .grid-cell:hover {
+  border: 1px solid var(--text);
+  transform: none;
 }
 
 /* settings dialog styling */

@@ -20,7 +20,7 @@ import Button from './Button';
 // hooks import
 
 
-function Navbar() {
+function Navbar({createdFlag,createFlag}) {
 
   const navigate = useNavigate();
 
@@ -30,7 +30,8 @@ function Navbar() {
     <div className='navbar-outer'>
       <WrappedTitle wrappedFlag={false} fontSize='70px'/>
       <BackButton size={50} />
-      <Button text='created' height={55} width={150} action={()=>{navigate('/canvas-list')}} />
+      { createdFlag === false ? null : <Button text='created' height={55} width={150} action={()=>{navigate('/canvas-list')}} /> }
+      { createFlag === false ? null : <Button text='create' height={55} width={150} action={()=>{navigate('/canvas/easy/create')}} /> }
       <ThemeButton />
       <SettingsButton size={50} updateSettingsDialogFlag={setDialogFlag} />
       { dialogFlag ? <SettingsDialog setSettingsFlag={setDialogFlag} /> : null}

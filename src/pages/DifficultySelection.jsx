@@ -32,7 +32,7 @@ function DifficultySelection() {
         <BackButton size={50} />
         <ThemeButton />
         <SettingsButton size={50} updateSettingsDialogFlag={setSettingsFlag}/>
-        <Button text='create' action={() => navigate('/canvas/easy')} height={50} />
+        <Button text='create' action={() => navigate('/canvas/easy/create')} height={50} />
       </div>
       <WrappedTitle wrappedFlag={false} fontSize='150px'/>
       <div className='difficulty-buttons-row'>

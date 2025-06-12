@@ -23,7 +23,7 @@ function WrappedTitle({wrappedFlag, fontSize}) {
   }
 
   return (
-    <div className="wrapped-title" style={{ flexDirection: wrappedFlag ? 'column' : 'row' }} onClick={handleClick}>
+    <h1 className="wrapped-title" style={{ flexDirection: wrappedFlag ? 'column' : 'row' }} onClick={handleClick}>
       <div className="wrapped-title-top-text" style={{fontSize: fontSize}}>
         <span className='title-letter'>N</span>
         <span className='title-letter'>O</span>
@@ -36,7 +36,7 @@ function WrappedTitle({wrappedFlag, fontSize}) {
         <span className='title-letter'>A</span>
         <span className='title-letter'>M</span>
       </div>
-    </div>
+    </h1>
   );
 }
 

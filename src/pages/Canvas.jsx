@@ -22,10 +22,10 @@ import CanvasDifficultyButtons from '../components/CanvasDifficultyButtons';
 
 function Canvas() {
 
-  const { difficulty } = useParams(); 
+  const { difficulty, mode } = useParams(); 
 
-  if(!localStorage.getItem(`${difficulty}canvasValues`)) localStorage.setItem(`${difficulty}canvasValues`,JSON.stringify(initValues(difficulty)));
-  if(!localStorage.getItem(`${difficulty}canvasTitle`)) localStorage.setItem(`${difficulty}canvasTitle`,'');
+  if(!localStorage.getItem(`${difficulty}canvasValues`) && mode != 'edit') localStorage.setItem(`${difficulty}canvasValues`,JSON.stringify(initValues(difficulty)));
+  if(!localStorage.getItem(`${difficulty}canvasTitle`) && mode != 'edit') localStorage.setItem(`${difficulty}canvasTitle`,'');
 
   let [canvasValueState, setCanvasValue] = useState(initValues(difficulty));
   let [leftMouseDownFlag, setLeftMouseDownFlag] = useState(false);
@@ -36,10 +36,18 @@ function Canvas() {
   let [title, setTitle] = useState('');
 
   useEffect(() => {
-    setTitle(localStorage.getItem(`${difficulty}canvasTitle`));
-    setCanvasValue(JSON.parse(localStorage.getItem(`${difficulty}canvasValues`)));
+    if( mode == 'edit' ) {
+      setTitle(localStorage.getItem(`${difficulty}canvasTitleEdit`));
+    } else {
+      setTitle(localStorage.getItem(`${difficulty}canvasTitle`));
+    }
+    if( mode == 'edit' ) {
+      setCanvasValue(JSON.parse(localStorage.getItem(`${difficulty}canvasValuesEdit`)));
+    } else {
+      setCanvasValue(JSON.parse(localStorage.getItem(`${difficulty}canvasValues`)));
+    }
     return;
-  }, [difficulty]);
+  }, [difficulty, mode]);
 
   const clearBoard = () => {
     const size = canvasValueState.length;
@@ -50,8 +58,8 @@ function Canvas() {
         newCanvasValues[i].push(0);
       }
     }
-    localStorage.setItem(`${difficulty}canvasValues`,JSON.stringify(newCanvasValues));
-    localStorage.setItem(`${difficulty}canvasTitle`,'');
+    localStorage.setItem(`${difficulty}canvasValues${ mode == 'edit' ? 'Edit' : ''}`,JSON.stringify(newCanvasValues));
+    localStorage.setItem(`${difficulty}canvasTitle${ mode == 'edit' ? 'Edit' : ''}`,'');
     setCanvasValue(newCanvasValues);
     setTitle('');
   }
@@ -59,12 +67,12 @@ function Canvas() {
   const updateGrid = (position,newValue) => {
     const newGrid = [...canvasValueState.map(row => [...row])];
     newGrid[position[0]][position[1]] = newValue;
-    localStorage.setItem(`${difficulty}canvasValues`,JSON.stringify(newGrid));
+    localStorage.setItem(`${difficulty}canvasValues${ mode == 'edit' ? 'Edit' : ''}`,JSON.stringify(newGrid));
     setCanvasValue(newGrid);
   }
 
   const submit = () => {
-    if(localStorage.getItem(`${difficulty}user-puzzles`)) {
+    if(localStorage.getItem(`${difficulty}user-puzzles`) && mode != 'edit') {
       const storageArr = JSON.parse(localStorage.getItem(`${difficulty}user-puzzles`));
       for( let i = 0; i < storageArr.length; i++ ) {
         if( storageArr[i].title == title.toLowerCase()) {
@@ -123,7 +131,11 @@ function Canvas() {
       localStorage.setItem(`${difficulty}user-puzzles`,JSON.stringify([newUserPuzzle]));
     } else {
       const storageArr = JSON.parse(localStorage.getItem(`${difficulty}user-puzzles`));
-      storageArr.push(newUserPuzzle);
+      if( mode == 'edit' ) {
+        storageArr[parseInt(localStorage.getItem(`${difficulty}editIndex`))] = newUserPuzzle;
+      } else {
+        storageArr.push(newUserPuzzle);
+      }
       localStorage.setItem(`${difficulty}user-puzzles`,JSON.stringify(storageArr));
     }
     setSubmitFlag(true);
@@ -134,7 +146,7 @@ function Canvas() {
 
   const updateTitle = (text) => {
     setTitle(text);
-    localStorage.setItem(`${difficulty}canvasTitle`,text);
+    localStorage.setItem(`${difficulty}canvasTitle${ mode == 'edit' ? 'Edit' : ''}`,text);
   }
 
   const handleLeftMouseDrag = (flag) => {
@@ -152,9 +164,9 @@ function Canvas() {
 
   return (
     <div className='canvas-page-outer' onMouseUp={handleMouseUp}>
-      <Navbar />
+      <Navbar createdFlag={false} createFlag={false}/>
       <div className='canvas-grid-area'>
-        <CanvasButtons clearBoard={clearBoard} submit={submit} setTitleFlag={setTitleFlag} />
+        <CanvasButtons clearBoard={clearBoard} submit={submit} setTitleFlag={setTitleFlag} mode={mode} />
         <CanvasGrid 
         values={canvasValueState}
         updateGrid={updateGrid}
@@ -164,9 +176,9 @@ function Canvas() {
         updateClearLeft={handleClearLeft}
         title={title}
         />
-        <CanvasDifficultyButtons />
+        <CanvasDifficultyButtons mode={mode} />
       </div>
-      { (submitFlag) ? <Popup text={"Submitted! Remember that some puzzles may be unsolvable!"} /> : null }
+      { (submitFlag) ? <Popup text={ ((mode == 'edit') ? 'Edited' : 'Submitted') + "! Remember that some puzzles may be unsolvable!"} /> : null }
       { (duplicateFlag) ? <Popup text={"Puzzle with this name already exists!"} /> : null }
       { (titleFlag) ? <TitleDialog setTitleFlag={setTitleFlag} updateTitle={updateTitle} titleText={title} /> : null }
     </div>

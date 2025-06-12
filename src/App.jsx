@@ -39,7 +39,7 @@ function App() {
           <Route path="/" element={<MainPage />} />
           <Route path="/difficulty" element={<DifficultySelection />} />
           <Route path="/game/:difficulty" element={<GamePage />} />
-          <Route path="/canvas/:difficulty" element={<Canvas />} />
+          <Route path="/canvas/:difficulty/:mode" element={<Canvas />} />
           <Route path="/canvas-list" element={<CanvasList />} />
         </Routes>
       </Router>

@@ -13,15 +13,15 @@ import Button from './Button';
 // hooks import
 
 
-function CanvasDifficultyButtons() {
+function CanvasDifficultyButtons({mode}) {
 
   const navigate = useNavigate();
 
   return (
     <div className='canvas-difficulty-buttons-outer'>
-      <Button text='easy' action={() => {navigate('/canvas/easy')}} height={70} />
-      <Button text='medium' action={() => {navigate('/canvas/medium')}} height={70} />
-      <Button text='hard' action={() => {navigate('/canvas/hard')}} height={70} />
+      <Button text='easy' action={() => {navigate(`/canvas/easy/${mode}`)}} height={70} />
+      <Button text='medium' action={() => {navigate(`/canvas/medium/${mode}`)}} height={70} />
+      <Button text='hard' action={() => {navigate(`/canvas/hard/${mode}`)}} height={70} />
     </div>
   );
 }

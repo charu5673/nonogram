@@ -31,7 +31,6 @@ function CanvasGrid({values, updateGrid, leftMouseDownFlag, updateLeft, clearLef
                   updateLeft={(flag) => updateLeft(flag)}
                   clearLeftFlag={clearLeftFlag}
                   updateClearLeft={(flag) => {updateClearLeft(flag)}}
-                  padding={(values.length == 15) ? 5 : ((values.length == 5) ? 20 : 10)}
                 />
               ))
             }
@@ -44,7 +43,7 @@ function CanvasGrid({values, updateGrid, leftMouseDownFlag, updateLeft, clearLef
   );  
 }
 
-function GridCell({value, position, updateGrid, leftMouseDownFlag, updateLeft, clearLeftFlag, updateClearLeft, padding}) {
+function GridCell({value, position, updateGrid, leftMouseDownFlag, updateLeft, clearLeftFlag, updateClearLeft}) {
 
   const handleClick = () => {
     if(value != 1) {
@@ -69,13 +68,11 @@ function GridCell({value, position, updateGrid, leftMouseDownFlag, updateLeft, c
   }
 
   const classValue = (value == 1) ? 'fill' : 'empty';
-  const animationDelay = position[0] + position[1];
 
     return (
         <div
           className={'grid-cell ' + classValue}
           onClick={handleClick}
-          style={{animationDelay: `${animationDelay*0.1}s`, padding: `${padding}px`}}
           onMouseOver={handleMouseOver}
           onMouseDown={handleMouseDown}
         >

@@ -56,7 +56,7 @@ function GamePage() {
 
   return (
     <div className='game-page-outer' onMouseUp={handleMouseUp} onContextMenu={handleRightClick}>
-      <Navbar />
+      <Navbar createFlag={false}/>
       <GameArea
         difficulty = {difficulty}
         puzzleType='random'

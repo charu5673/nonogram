@@ -9,6 +9,7 @@ import '../index.css'
 
 // components import
 import Navbar from '../components/Navbar';
+import PuzzleList from '../components/PuzzleList';
 
 // hooks import
 
@@ -17,8 +18,8 @@ function CanvasList() {
 
   return (
     <div className='canvas-list-outer'>
-      <Navbar />
-      UNDER CONSTRUCTION
+      <Navbar createdFlag={false}/>
+      <PuzzleList />
     </div>
   );
 }
